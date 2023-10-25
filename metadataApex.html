@@ -22,6 +22,12 @@
             </div>
         </div>
 
+        <template if:true={showSpinner}>
+           <div style="height: 200px; position:relative ">
+              <lightning-spinner variant="base" size="medium"></lightning-spinner>
+           </div>
+        </template>
+
         <div class="slds-p-left_small">
                 <template lwc:if={fetchedMetadata}>
 				  <template for:each={fetchedMetadata} for:item="record">
@@ -106,7 +112,7 @@
                                         <pre class="custom-pre">{metaBody.body}</pre>                   
                                     </div>
                                 </div>
-				            </template>
+			    </template>
                          </template>
                     </div>
 
