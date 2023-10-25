@@ -6,7 +6,7 @@ import MetadataRecordsBody from '@salesforce/apex/Metadata_Apex.metaDataBody';
 export default class MetadataApex extends LightningElement {
 
     @track selectedformId;
-    @track fetchedMetadata ;
+    @track fetchedMetadata;
     @track fetchedMetadataBody ;
     @track searchfetchedMetadata = false;
     inputValue = '';
@@ -16,6 +16,8 @@ export default class MetadataApex extends LightningElement {
     @track ApexClassOptions = [];
     handleMetadataChange = '';
     @track isShowModal = false;
+
+    @track showSpinner = false;
     
 
     @wire(getApexClass)
@@ -48,7 +50,8 @@ export default class MetadataApex extends LightningElement {
 	}
 
     handleInput(event){
-        console.log(event.target.value);        
+        this.showSpinner = true;    
+        this.fetchedMetadata = false;  
         this.inputValue = event.target.value;
         SearchMetadataRecords({metaValue: this.selectedformId, formName : this.inputValue}).then(result => {        
              this.fetchedMetadata = result;  
@@ -56,19 +59,24 @@ export default class MetadataApex extends LightningElement {
             
         }).catch(error => {
              console.log('Error occurred : '+error);
-        })
+        }).finally(() => {
+                this.showSpinner = false;
+        });
     }
 
-    handleChange(event) {          
+    handleChange(event) {    
+        this.fetchedMetadata = false;            
 		this.selectedformId = event.detail.value;
-        console.log(this.selectedformId);        
+        this.showSpinner = true;    
         this.labels = event.target.options.find(opt => opt.value === event.detail.value).label;
         MetadataRecords({metaValue :  this.selectedformId}).then(result => {        
              this.fetchedMetadata = result;             
            
         }).catch(error => {
              console.log('Error occurred : '+error);
-        })
+        }).finally(() => {
+                this.showSpinner = false;
+            });
     }
 
     handleClick(event){
