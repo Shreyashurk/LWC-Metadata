@@ -1,5 +1,5 @@
 public class Metadata_Apex {
-	@AuraEnabled(cacheable=true)
+    @AuraEnabled(cacheable=true)
     public static List<ApexFormWrapper> fetchAllMetadataName(){	        
         List<ApexFormWrapper> apexWrapper = new List<ApexFormWrapper>();        
         Map<String, string> apexForm = new Map<String, string>();
@@ -15,14 +15,14 @@ public class Metadata_Apex {
     }
     
     @AuraEnabled(cacheable=true)
-    public static List<fetchMetadataAllRecord> MetadataAllRecord(String metaValue){    							// All record Form Name for the Apex
+    public static List<fetchMetadataAllRecord> MetadataAllRecord(String metaValue){    			// All record Form Name for the Apex
         String query = 'Select Id, Name, Status, LastModifiedDate, ApiVersion from '+ metaValue;  
         List<SObject> records = Database.query(query);
         return Datafetching(records);
     }
     
     @AuraEnabled(cacheable=true)
-    public static List<MetadataBody> metaDataBody(String metaValue, String bodyId){								// Form Name Meta Body the Apex
+    public static List<MetadataBody> metaDataBody(String metaValue, String bodyId){				// Form Name Meta Body the Apex
         String query = 'select name, Body from '+ metaValue+ ' WHERE Id = \'' + bodyId + '\'';
         List<MetadataBody> metaBodyList = new List<MetadataBody>();
         List<SObject> records = Database.query(query);
@@ -34,10 +34,11 @@ public class Metadata_Apex {
         }
         system.debug(metaBodyList);
         return metaBodyList;
-    }  
+    } 
+
     
     @AuraEnabled(cacheable=true)
-    public static List<fetchMetadataAllRecord> searchMetaRecord(String metaValue, string formName){						// Search the Form Name for the Apex
+    public static List<fetchMetadataAllRecord> searchMetaRecord(String metaValue, string formName){		// Search the Form Name for the Apex
         String query = 'select Id, Name, Status, LastModifiedDate, ApiVersion from '+ metaValue+ ' WHERE Name = \'' + formName + '\'';          
         List<SObject> records = Database.query(query);   
         return Datafetching(records);        
@@ -50,9 +51,9 @@ public class Metadata_Apex {
         List<SObject> records = Database.query(query);   
         return Datafetching(records); 
     }
+
     
-    
-    public static ApexFormWrapper iterateAllData(String value, String label){						// Form Name and count getting for the combobox
+    public static ApexFormWrapper iterateAllData(String value, String label){			// Form Name and count getting for the combobox
         ApexFormWrapper afw = new ApexFormWrapper();
         String countApex = 'Select count() from '+value;
         Integer totalRecords = Database.countQuery((string)countApex, AccessLevel.USER_MODE);
@@ -60,10 +61,12 @@ public class Metadata_Apex {
         afw.formvalue = value;        
         return afw;
     }
+
     
     public class MetadataBody{
         @AuraEnabled public string body, name;
     }
+
     
     public class fetchMetadataAllRecord{
         @AuraEnabled public string Id;
@@ -72,11 +75,13 @@ public class Metadata_Apex {
         @auraEnabled public decimal version ;
         @AuraEnabled public datetime LastModifiedDate;       
     }
+
     
     public class ApexFormWrapper{
          @AuraEnabled public string formLabel, formvalue;
     }
-    
+
+
     public static List<fetchMetadataAllRecord> Datafetching(List<sObject> records){
         List<fetchMetadataAllRecord> recordWrapper = new List<fetchMetadataAllRecord>();
         for(Sobject sobj : records){   
