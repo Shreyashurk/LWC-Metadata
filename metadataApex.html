@@ -15,10 +15,10 @@
 				</div>
 				<div class="slds-col slds-size_4-of-12">
                     <div class="slds-p-left_x-large">					
-                        <lightning-button variant="brand" label="Clear" title="Clear" onclick={handleReset}>
-                        </lightning-button>
+                        <lightning-combobox variant="label-hidden" options={sortbyId} value={selectedSortForm} disabled={isComboBoxDisabled}
+			onchange={handleSortChange} placeholder="Sort By ↑↓" style="width:160px"></lightning-combobox>
                     </div>
-				</div>
+		</div>
             </div>
         </div>
 
@@ -81,8 +81,8 @@
                                     </span>
                                 </div>
                             </div>						
-					</div>					
-				  </template>
+			</div>					
+		    </template>
                 </template>
 
         <template if:true={isShowModal}>
@@ -112,7 +112,7 @@
                                         <pre class="custom-pre">{metaBody.body}</pre>                   
                                     </div>
                                 </div>
-			    </template>
+				            </template>
                          </template>
                     </div>
 
