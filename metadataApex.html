@@ -1,5 +1,5 @@
 <template>
-    <lightning-card title="Metadata Search" icon-name="custom:custom57">
+    <lightning-card title="Metadata Search" icon-name="custom:custom68">
         <div class="slds-p-left_large">
             <div class="slds-grid slds-wrap">
                 <div class="slds-col slds-size_2-of-12">
@@ -9,16 +9,23 @@
 				<div class="slds-col slds-size_6-of-12">
                     <div class="slds-p-left_small">
                         <lightning-input type="search" variant="label-hidden" placeholder={placeHolder}
-                            onchange={handleInput}>
+                            onchange={handleInput} disabled={isComboBoxDisabled}>
                         </lightning-input>
                     </div>
 				</div>
-				<div class="slds-col slds-size_4-of-12">
-                    <div class="slds-p-left_x-large">					
-                        <lightning-combobox variant="label-hidden" options={sortbyId} value={selectedSortForm} disabled={isComboBoxDisabled}
-			onchange={handleSortChange} placeholder="Sort By ↑↓" style="width:160px"></lightning-combobox>
+				<div class="slds-col slds-size_3-of-12">
+                    <div class="slds-p-left_medium">					
+                        <lightning-combobox variant="label-hidden" icon-name="custom:custom68" options={sortbyId} value={selectedSortForm} disabled={isComboBoxDisabled}
+						onchange={handleSortChange} placeholder="Sort By ↑↓" style="width:160px"></lightning-combobox>
+                    </div>                     
+				</div>  
+
+                <div class="slds-col slds-size_2_of-12">
+                    <div class="slds-p-left_xx-small">
+                            <lightning-icon icon-name='action:refresh' alternative-text='Refresh' class="icon_container"
+                            onclick={handleRefresh} size='x-small' title='Refresh'></lightning-icon>
                     </div>
-		</div>
+                </div>              
             </div>
         </div>
 
@@ -35,8 +42,7 @@
 						<div class="slds-grid slds-wrap">
 							<div class="slds-col slds-size_6-of-12 slds-truncate">
 								<h3 slot="title" style="font-weight:bold">
-									<lightning-icon icon-name="custom:custom11" alternative-text="XML file"
-										title="XML"></lightning-icon>
+                                    <lightning-icon icon-name='doctype:gform' alternative-text='gform' size='Medium' title='gform'></lightning-icon>
 									<span class="slds-p-left_x-small slds-text-heading_small">{record.name}</span>
 								</h3>
 							</div>
@@ -47,14 +53,14 @@
                                         <div class="slds-p-left_xx-large">
                                             <div class="slds-truncate slds-text-title" title="Api Version"><b>Api Version</b></div>	
                                             <div class="slds-p-top_x-small">
-                                                     <div class="slds-truncate slds-text-title" title="Api Version">{record.version}</div>	
+                                                <div class="slds-truncate slds-text-title" title="Api Version">{record.version}</div>	
                                             </div>                                           							
                                        </div>
                                     </span>
                                 </div>
-                                <div class="slds-col slds-size_3-of-12">
+                                <div class="slds-col slds-size_2-of-12">
                                     <span>
-                                       <div class="slds-p-left_xx-large">
+                                       <div class="slds-p-left_x-large">
                                             <div class="slds-truncate slds-text-title" title="Created By Name"><b>Status</b></div>
                                              <div class="slds-p-top_x-small">
                                                  <div class="slds-truncate slds-text-title" title="Api Version">{record.Status}</div>
@@ -64,7 +70,7 @@
                                 </div>
                                 <div class="slds-col slds-size_3-of-12">
                                     <span>
-                                        <div class="slds-p-left_xx-large">
+                                        <div class="slds-p-left_x-large">
                                             <div class="slds-truncate slds-text-title" title="LastModified Date"><b>LastModified Date</b></div>
                                              <div class="slds-p-top_x-small">
                                                 <div class="slds-truncate slds-text-title" title="Api Version">{record.LastModifiedDate}</div>	
@@ -72,17 +78,44 @@
                                        </div>
                                     </span>
                                 </div>
-                                <div class="slds-col slds-size_3-of-12">
-                                    <span>
-                                        <div class="slds-p-left_xx-large">
-                                            <div class="slds-truncate slds-text-title viewHover" title="LastModified Date" 
-                                            onclick={handleClick} data-id={record.Id}><b><u>View</u></b></div>                                            							
+                                <div class="slds-col slds-size_2-of-12">
+                                    <span>  
+                                        <div class="slds-p-left_x-large">
+                                            <div class="slds-truncate slds-text-title" title="LastModified Date">
+                                                <b>
+                                                     <div class="slds-truncate slds-text-title viewHover" title="View" 
+                                                     onclick={handleClick} data-id={record.Id}><b>View Code</b></div>                                                 
+                                                </b>
+                                            </div>
+                                             <div class="slds-p-top_x-small">
+                                                 <div class="slds-p-left_small">
+                                                    <lightning-icon icon-name='standard:code_playground' class="icon_container" data-id={record.Id} onclick={handleClick} alternative-text='View Code' 
+                                                    size='small' title='View Code'></lightning-icon>
+                                                </div>
+                                             </div>								
                                        </div>
                                     </span>
                                 </div>
+
+                                <div class="slds-col slds-size_2-of-12">
+                                    <span>
+                                        <div class="slds-p-left_x-large">
+                                            <div class="slds-truncate slds-text-title" title="To Editor"><b>To Editor</b></div>
+                                             <div class="slds-p-top_x-small">
+                                                <div class="slds-truncate slds-text-title" title="Api Version">
+                                                     <div class="slds-p-left_small">
+                                                        <a href={record.navigationCode} target="_blank">                                                
+                                                            <lightning-icon icon-name='standard:sales_path' class="icon_container" alternative-text='Metadata Editor' size='small' title='Metadata Editor'></lightning-icon>
+                                                        </a>  
+                                                     </div>   
+                                                </div>	
+                                             </div>	                        							
+                                        </div>
+                                    </span>
+                                </div>
                             </div>						
-			</div>					
-		    </template>
+					</div>					
+				  </template>
                 </template>
 
         <template if:true={isShowModal}>
