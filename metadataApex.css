@@ -2,8 +2,13 @@
 	color : black;
 }
 
+.icon_container:hover{
+    transform: scale(1.2); 
+    cursor: pointer;     
+}
+
 .custom-pre{
-    font-family: 'Calibri'; /* Change the font-family to your preference */
+    font-family: 'Calibri'; 
     font-size: 15px;
 }
 
