@@ -4,4 +4,4 @@ This metadata component also allows viewing the body of triggers or classes by c
 Please refer to the demo gif.
 
 # Metadata Component Demo
-![Metadata](https://github.com/Shreyashurk/LWC-Metadata/assets/145257222/98f0fab4-7653-4c49-88da-222bc5a48fbc)
+![Metadata Final](https://github.com/Shreyashurk/LWC-Metadata/assets/145257222/d4469d10-a0d7-4156-9052-b961eb05422c)
