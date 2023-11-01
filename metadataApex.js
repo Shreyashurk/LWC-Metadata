@@ -7,23 +7,20 @@ import sortingMetadata from '@salesforce/apex/Metadata_Apex.sortMetadata';
 export default class MetadataApex extends LightningElement {
 
     sortbyId = [
-        { value: 'dateAsc', label: 'Date 1->31' },{ value: 'dateDesc', label: 'Date 31->1' }, 
-        { value: 'nameAsc', label: 'Name A->Z' }, { value: 'nameDesc', label: 'Name Z->A' },        
+        { value: 'dateAsc', label: 'Date 1->31'},{ value: 'dateDesc', label: 'Date 31->1'}, 
+        { value: 'nameAsc', label: 'Name A->Z'}, { value: 'nameDesc', label: 'Name Z->A'},        
     ];
 
+    @track refreshFlag = false;
     @track selectedformId;
     @track selectedSortForm;
     @track fetchedMetadata;
+    @track storeFetchData = '';
     @track fetchedMetadataBody ;
     @track searchfetchedMetadata = false;
-    inputValue = '';
-    sortFieldName = '';
-    sortbyorder = ''; 
-    showCode = false;
-    NoMetadata = false;
-    labels='xxx';
-    @track ApexClassOptions = [];
-    handleMetadataChange = '';
+    inputValue = '';    sortFieldName = '';
+    sortbyorder = '';   labels='xxx';
+    @track ApexClassOptions = [];    
     @track isShowModal = false;
     @track isComboBoxDisabled = true;
     @track showSpinner = false;
@@ -64,22 +61,23 @@ export default class MetadataApex extends LightningElement {
         this.inputValue = event.target.value;
         SearchMetadataRecords({metaValue: this.selectedformId, formName : this.inputValue}).then(result => {        
              this.fetchedMetadata = result;  
+             this.storeFetchData = result;
              console.log(this.fetchedMetadataBody);            
         }).catch(error => {
              console.log('Error occurred : '+error);
         }).finally(() => {
                 this.showSpinner = false;
         });
+
     }
 
     handleChange(event) {    
         this.fetchedMetadata = false;            
-	this.selectedformId = event.detail.value;
-        this.showSpinner = true;    
+		this.selectedformId = event.detail.value;        
         this.labels = event.target.options.find(opt => opt.value === event.detail.value).label;
+        this.showSpinner = true;  
         MetadataRecords({metaValue :  this.selectedformId}).then(result => {        
-             this.fetchedMetadata = result;             
-           
+             this.fetchedMetadata = result;      
         }).catch(error => {
              console.log('Error occurred : '+error);
         }).finally(() => {
@@ -91,7 +89,7 @@ export default class MetadataApex extends LightningElement {
     handleClick(event){
         this.isShowModal = true;
         const id = event.currentTarget.dataset.id;
-        //console.log(typeof id);
+        console.log(id);
         MetadataRecordsBody({metaValue :  this.selectedformId, bodyId : id}).then(result => {        
              this.fetchedMetadataBody = result;  
              console.log(this.fetchedMetadataBody.body);           
@@ -106,21 +104,20 @@ export default class MetadataApex extends LightningElement {
         this.fetchedMetadataBody = '';
     }
 
-
     handleSortChange(event){
         this.fetchedMetadata = false;  
         this.showSpinner = true;         
         if (event.target.value === 'dateAsc') {
-		this.sortFieldName = 'LastModifiedDate';  this.sortbyorder = 'asc';
-	}
-	else if (event.target.value === 'dateDesc') {
-		this.sortFieldName = 'LastModifiedDate';  this.sortbyorder = 'desc';
-	}
+			this.sortFieldName = 'LastModifiedDate';  this.sortbyorder = 'asc';
+		}
+		else if (event.target.value === 'dateDesc') {
+			this.sortFieldName = 'LastModifiedDate';  this.sortbyorder = 'desc';
+		}
         else if (event.target.value === 'nameAsc') {
-		this.sortFieldName = 'Name';  this.sortbyorder = 'asc';
-	}
+			this.sortFieldName = 'Name';  this.sortbyorder = 'asc';
+		}
         else if (event.target.value === 'nameDesc') {
-                this.sortFieldName = 'Name';  this.sortbyorder = 'desc';
+            this.sortFieldName = 'Name';  this.sortbyorder = 'desc';
         }
         
         sortingMetadata({metaValue: this.selectedformId, fieldName : this.sortFieldName, sortby : this.sortbyorder}).then(result => {        
@@ -133,4 +130,13 @@ export default class MetadataApex extends LightningElement {
         });
     }
 
+
+    refreshTab() {        
+        location.reload();
+    }
+
+    handleRefresh(event){
+        this.refreshTab();
+    }
+  
 }
