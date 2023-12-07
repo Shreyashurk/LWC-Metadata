@@ -4,4 +4,6 @@ This metadata component also allows viewing the body of triggers or classes by c
 Please refer to the demo gif.
 
 # Metadata Component Demo
-![Metadata Final](https://github.com/Shreyashurk/LWC-Metadata/assets/145257222/d4469d10-a0d7-4156-9052-b961eb05422c)
+[
+![MetaData Apex](https://github.com/Shreyashurk/LWC-Metadata/assets/145257222/122506ce-e83a-486e-8527-97a265cbe186)
+](url)
